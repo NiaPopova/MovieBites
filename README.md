@@ -11,4 +11,14 @@ Movies(<ins>id</ins>, title, year, director, summary, photo, genre_id)\
 Movie_genres(<ins>id</ins>, name)\
 Contains(<ins>recipe_id</ins>, <ins>ingredient_id</ins>)
 ## REST API Documentation
-
+GET    /api/recipes    Връща всички рецепти    -
+GET    /api/recipes/:id    Връща детайли за конкретна рецепта    -
+POST    /api/recipes    Създава нова рецепта    { title, description, ingredients, steps, movieId }
+PUT    /api/recipes/:id    Редактира съществуваща рецепта    { title?, description?, ingredients?, steps?, movieId? }
+DELETE    /api/recipes/:id    Изтрива рецепта    -
+GET    /api/movies    Връща всички филми    -
+GET    /api/movies/:id    Връща информация за конкретен филм    -
+POST    /api/movies    Добавя нов филм    { title, director, releaseDate, description }
+GET    /api/recipes/movie/:movieId    Връща всички рецепти от конкретен филм
+POST /api/auth/login логване на съществуващи потребители
+POST /api/auth/register Регистрация на нови потребители
