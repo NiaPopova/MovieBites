@@ -104,7 +104,7 @@
             <column name="recipe_id" type="integer">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="ingredients_id" type="integer">
+            <column name="ingredient_id" type="integer">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
         </createTable>
