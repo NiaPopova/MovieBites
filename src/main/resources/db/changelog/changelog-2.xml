@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="2" author="niya">
+        <addForeignKeyConstraint baseTableName="recipes" baseColumnNames="user_id" constraintName="fk_recipes_users"
+                                 referencedTableName="users"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="recipes" baseColumnNames="category_id" constraintName="fk_recipes_categories"
+                                 referencedTableName="recipe_categories"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="recipes" baseColumnNames="movie_id" constraintName="fk_recipes_movies"
+                                 referencedTableName="movies"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="movies" baseColumnNames="genre_id" constraintName="fk_movies_genres"
+                                 referencedTableName="movie_genres"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="contains" baseColumnNames="recipe_id" constraintName="fk_contains_recipes"
+                                 referencedTableName="recipes"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint baseTableName="contains" baseColumnNames="ingredient_id" constraintName="fk_contains_ingredients"
+                                 referencedTableName="ingredients"
+                                 referencedColumnNames="id"/>
+
+    </changeSet>
+</databaseChangeLog>
