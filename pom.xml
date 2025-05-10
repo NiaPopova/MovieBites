@@ -44,9 +44,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.postgresql</groupId>
-			<artifactId>postgresql</artifactId>
-			<scope>runtime</scope>
+			<groupId>com.ibm.db2</groupId>
+			<artifactId>jcc</artifactId>
+			<version>11.5.9.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
