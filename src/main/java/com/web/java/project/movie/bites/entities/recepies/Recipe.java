@@ -1,5 +1,12 @@
 package com.web.java.project.movie.bites.entities.recepies;
 
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+
+import java.util.HashSet;
+import java.util.Set;
+
 public class Recipe {
 
     private int id;
@@ -7,6 +14,14 @@ public class Recipe {
     private String description;
     private String summary;
     private String dificulty;
+
+    @ManyToMany
+    @JoinTable(
+        name = "contains",
+        joinColumns = @JoinColumn(name = "recipe_id"),
+        inverseJoinColumns = @JoinColumn(name = "ingredient_id")
+    )
+    private Set<Ingredient> ingredients = new HashSet<>();
 
     public Recipe(int id, String name, String description, String summary, String dificulty) {
         this.id = id;
