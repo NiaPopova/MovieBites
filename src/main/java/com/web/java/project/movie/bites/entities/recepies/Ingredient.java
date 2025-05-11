@@ -1,9 +1,17 @@
 package com.web.java.project.movie.bites.entities.recepies;
 
+import jakarta.persistence.ManyToMany;
+
+import java.util.HashSet;
+import java.util.Set;
+
 public class Ingredient {
 
     private int id;
     private String name;
+
+    @ManyToMany(mappedBy = "ingredients")
+    private Set<Recipe> recipes = new HashSet<>();
 
     public Ingredient(int id, String name) {
         this.id = id;
