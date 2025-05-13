@@ -1,76 +1,30 @@
 package com.web.java.project.movie.bites.entities.recepies;
 
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.HashSet;
 import java.util.Set;
 
+@Entity
+@Table(name = "Ingredients")
+@Setter
+@Getter
 public class Ingredient {
 
+    @Id
+    @Setter(value = AccessLevel.NONE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    @Column(name = "ID")
     private int id;
+    @Column(name = "NAME")
     private String name;
 
     @ManyToMany(mappedBy = "ingredients")
     private Set<Recipe> recipes = new HashSet<>();
-
-    public Ingredient(int id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String toString() {
-        return "Ingredient [id=" + id + ", name=" + name + "]";
-    }
-
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Ingredient other = (Ingredient) obj;
-        if (id != other.id)
-            return false;
-        if (name == null) {
-            if (other.name != null)
-                return false;
-        } else if (!name.equals(other.name))
-            return false;
-        return true;
-    }
-
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + id;
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
-        return result;
-    }
-
-    public static Ingredient createIngredient(int id, String name) {
-        return new Ingredient(id, name);
-    }
-
-
-
-
 
 
 }
