@@ -35,10 +35,10 @@ public class Recipe {
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
-        name = "contains",
-        joinColumns = @JoinColumn(name = "recipe_id"),
-        inverseJoinColumns = @JoinColumn(name = "ingredient_id"),
-        uniqueConstraints = @UniqueConstraint(columnNames = {"recipe_id", "ingredient_id"}))
+        name = "CONTAINS",
+        joinColumns = @JoinColumn(name = "RECIPE_ID"),
+        inverseJoinColumns = @JoinColumn(name = "INGREDIENT_ID"),
+        uniqueConstraints = @UniqueConstraint(columnNames = {"RECIPE_ID", "INGREDIENT_ID"}))
     private Set<Ingredient> ingredients = new HashSet<>();
 
 

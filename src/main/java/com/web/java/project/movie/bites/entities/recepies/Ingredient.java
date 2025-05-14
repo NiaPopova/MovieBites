@@ -23,7 +23,7 @@ public class Ingredient {
     @Column(name = "NAME")
     private String name;
 
-    @ManyToMany(mappedBy = "ingredients")
+    @ManyToMany(mappedBy = "INGREDIENTS")
     private Set<Recipe> recipes = new HashSet<>();
 
 
