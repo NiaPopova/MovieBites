@@ -1,7 +1,6 @@
 package com.web.java.project.movie.bites.service;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
-import com.web.java.project.movie.bites.entities.UserDto;
 import com.web.java.project.movie.bites.entities.users.User;
 import com.web.java.project.movie.bites.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,14 +12,9 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public User register(UserDto userDto) {
-        validateEmail(userDto.getEmail());
-        User user = new User();
-
-        user.setEmail(userDto.getEmail());
-        user.setName(userDto.getName());
-        user.setPassword(encryptPassword(userDto.getPassword()));
-        user.setUsername(userDto.getUsername());
+    public User register(User user) {
+        validateEmail(user.getEmail());
+        user.setPassword(encryptPassword(user.getPassword()));
 
         return userRepository.save(user);
     }

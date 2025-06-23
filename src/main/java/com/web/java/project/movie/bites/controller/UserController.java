@@ -2,10 +2,12 @@ package com.web.java.project.movie.bites.controller;
 
 import com.web.java.project.movie.bites.entities.UserDto;
 import com.web.java.project.movie.bites.entities.users.User;
-import com.web.java.project.movie.bites.repository.UserRepository;
+import com.web.java.project.movie.bites.mapper.UserMapper;
 import com.web.java.project.movie.bites.secutity.JwtUtil;
 import com.web.java.project.movie.bites.secutity.TokenBlacklistService;
+import com.web.java.project.movie.bites.service.UserService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,23 +19,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/movie/bites")
 public class UserController {
     private final AuthenticationManager authManager;
     private final JwtUtil jwtUtil;
     private final PasswordEncoder passwordEncoder;
-    private final UserRepository userRepository;
     private final TokenBlacklistService tokenBlacklistService;
 
-    public UserController(AuthenticationManager authManager, JwtUtil jwtUtil,
-                          PasswordEncoder passwordEncoder, UserRepository userRepository,
-                          TokenBlacklistService tokenBlacklistService) {
-        this.authManager = authManager;
-        this.jwtUtil = jwtUtil;
-        this.passwordEncoder = passwordEncoder;
-        this.userRepository = userRepository;
-        this.tokenBlacklistService = tokenBlacklistService;
-    }
+    private final UserService userService;
+    private final UserMapper userMapper;
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody User loginRequest) {
@@ -47,16 +42,13 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody @Valid UserDto user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        User newUser = new User();
-        newUser.setEmail(user.getEmail());
-        newUser.setUsername(user.getUsername());
-        newUser.setPassword(user.getPassword());
-        newUser.setName(user.getName());
-        userRepository.save(newUser);
-        return ResponseEntity.ok("Registered");
+    public ResponseEntity<UserDto> register(@RequestBody @Valid UserDto userDto) {
+        User user = userMapper.dtoToUser(userDto);
+        User savedUser = userService.register(user);
+        UserDto responseDto = userMapper.userToDto(savedUser);
+        return ResponseEntity.ok(responseDto);
     }
+
 
     @PostMapping("/logout")
     public ResponseEntity<?> logout(@RequestHeader("Authorization") String authHeader) {
