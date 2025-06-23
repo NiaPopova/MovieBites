@@ -4,6 +4,7 @@ import com.web.java.project.movie.bites.entities.UserDto;
 import com.web.java.project.movie.bites.entities.users.User;
 import com.web.java.project.movie.bites.repository.UserRepository;
 import com.web.java.project.movie.bites.secutity.JwtUtil;
+import com.web.java.project.movie.bites.secutity.TokenBlacklistService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -11,6 +12,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,13 +23,16 @@ public class UserController {
     private final JwtUtil jwtUtil;
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
+    private final TokenBlacklistService tokenBlacklistService;
 
     public UserController(AuthenticationManager authManager, JwtUtil jwtUtil,
-                          PasswordEncoder passwordEncoder, UserRepository userRepository) {
+                          PasswordEncoder passwordEncoder, UserRepository userRepository,
+                          TokenBlacklistService tokenBlacklistService) {
         this.authManager = authManager;
         this.jwtUtil = jwtUtil;
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
+        this.tokenBlacklistService = tokenBlacklistService;
     }
 
     @PostMapping("/login")
@@ -52,6 +57,16 @@ public class UserController {
         userRepository.save(newUser);
         return ResponseEntity.ok("Registered");
     }
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(@RequestHeader("Authorization") String authHeader) {
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            String token = authHeader.substring(7);
+            tokenBlacklistService.blacklistToken(token);
+        }
+        return ResponseEntity.ok("Logged out successfully");
+    }
+
 //    Register (Sign up)	Create a new user account	POST	/register or /users
 //    Login	Authenticate user credentials	POST	/login
 //    Logout	End user session (often via token invalidation)	POST or DELETE	/logout

@@ -13,7 +13,7 @@ import java.util.Date;
 public class JwtUtil {
 
     private final String jwtSecret = "mnogo_dulga_tajna_parola_koqto_e_256bita123456";
-    private final long jwtExpirationMs = 86400000; // 24 часа
+    private final long jwtExpirationMs = 1000 * 60 * 30;
 
     private Key getSigningKey() {
         return Keys.hmacShaKeyFor(jwtSecret.getBytes());
@@ -37,9 +37,21 @@ public class JwtUtil {
             .getSubject();
     }
 
+    public Date extractExpiration(String token) {
+        return Jwts.parserBuilder()
+            .setSigningKey(getSigningKey())
+            .build()
+            .parseClaimsJws(token)
+            .getBody()
+            .getExpiration();
+    }
+
     public boolean validateToken(String token) {
         try {
-            Jwts.parserBuilder().setSigningKey(getSigningKey()).build().parseClaimsJws(token);
+            Jwts.parserBuilder()
+                .setSigningKey(getSigningKey())
+                .build()
+                .parseClaimsJws(token);
             return true;
         } catch (JwtException | IllegalArgumentException e) {
             return false;
