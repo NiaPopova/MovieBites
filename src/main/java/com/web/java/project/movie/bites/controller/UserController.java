@@ -11,8 +11,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -62,9 +64,17 @@ public class UserController {
         return ResponseEntity.ok("Logged out successfully");
     }
 
-    @GetMapping
-    pub
-//    Get User Info	Retrieve current or specific user details	GET	/users/me or /users/:id
+    @GetMapping("users/current_user")
+    public ResponseEntity<UserDto> getCurrentUser(Authentication auth) {
+        String username = auth.getName();
+        return ResponseEntity.ok(userMapper.userToDto(userService.findByUsername(username)));
+    }
+
+    @GetMapping("users/{username}")
+    public ResponseEntity<UserDto> getUserByUsername(@PathVariable("username") String username) {
+        return ResponseEntity.ok(userMapper.userToDto(userService.findByUsername(username)));
+    }
+
 //    Update User Info	Modify user profile details	PUT or PATCH	/users/:id or /profile
 //    Delete User Account	Permanently delete a user	DELETE	/users/:id
 //    Change Password	Update the user's password	POST or PUT	/change-password

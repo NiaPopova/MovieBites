@@ -4,6 +4,7 @@ import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.web.java.project.movie.bites.entities.users.User;
 import com.web.java.project.movie.bites.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -19,6 +20,16 @@ public class UserService {
         user.setPassword(encryptPassword(user.getPassword()));
 
         return userRepository.save(user);
+    }
+
+    public User findByUsername(String username) {
+        Optional<User> user = userRepository.findByUsername(username);
+        if (user.isPresent()) {
+            return user.get();
+        } else {
+            throw new UsernameNotFoundException("Username not found");
+        }
+
     }
 
     public boolean exists(User loginRequest) {
@@ -38,4 +49,6 @@ public class UserService {
     private String encryptPassword(String password) {
         return BCrypt.withDefaults().hashToString(12, password.toCharArray());
     }
+
+
 }
