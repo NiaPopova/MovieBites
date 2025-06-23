@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -28,17 +30,6 @@ public class UserController {
     private final UserService userService;
     private final UserMapper userMapper;
 
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody User loginRequest) {
-        UsernamePasswordAuthenticationToken
-            auth = new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword());
-        authManager.authenticate(auth);
-
-        String token = jwtUtil.generateToken(loginRequest.getUsername());
-
-        return ResponseEntity.ok().body("Bearer " + token);
-    }
-
     @PostMapping("/register")
     public ResponseEntity<UserDto> register(@RequestBody @Valid UserDto userDto) {
         User user = userMapper.dtoToUser(userDto);
@@ -47,9 +38,23 @@ public class UserController {
         return ResponseEntity.ok(responseDto);
     }
 
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody User loginRequest) {
+        if (userService.exists(loginRequest)) {
+            UsernamePasswordAuthenticationToken
+                auth = new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword());
+            authManager.authenticate(auth);
+
+            String token = jwtUtil.generateToken(loginRequest.getUsername());
+
+            return ResponseEntity.ok().body("Bearer " + token);
+        } else {
+            throw new UsernameNotFoundException("Username or password is incorrect");
+        }
+    }
 
     @PostMapping("/logout")
-    public ResponseEntity<?> logout(@RequestHeader("Authorization") String authHeader) {
+    public ResponseEntity<String> logout(@RequestHeader("Authorization") String authHeader) {
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             String token = authHeader.substring(7);
             tokenBlacklistService.blacklistToken(token);
@@ -57,9 +62,8 @@ public class UserController {
         return ResponseEntity.ok("Logged out successfully");
     }
 
-//    Register (Sign up)	Create a new user account	POST	/register or /users
-//    Login	Authenticate user credentials	POST	/login
-//    Logout	End user session (often via token invalidation)	POST or DELETE	/logout
+    @GetMapping
+    pub
 //    Get User Info	Retrieve current or specific user details	GET	/users/me or /users/:id
 //    Update User Info	Modify user profile details	PUT or PATCH	/users/:id or /profile
 //    Delete User Account	Permanently delete a user	DELETE	/users/:id

@@ -6,6 +6,8 @@ import com.web.java.project.movie.bites.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserService {
 
@@ -17,6 +19,14 @@ public class UserService {
         user.setPassword(encryptPassword(user.getPassword()));
 
         return userRepository.save(user);
+    }
+
+    public boolean exists(User loginRequest) {
+        Optional<User> user = userRepository.findByUsername(loginRequest.getUsername());
+        if (user.isPresent()) {
+            return true;
+        }
+        return false;
     }
 
     private void validateEmail(String email) {
