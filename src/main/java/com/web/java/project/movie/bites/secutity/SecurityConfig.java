@@ -31,9 +31,9 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable()) // 🔐 Изключи CSRF защита за API-та
+            .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/register", "/login").permitAll() // ➕ Позволи достъп до register/login
+                .requestMatchers("/movie/bites/login", "/movie/bites/register").permitAll()
                 .anyRequest().authenticated()
             );
 
