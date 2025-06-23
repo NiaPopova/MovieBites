@@ -33,7 +33,7 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/movie/bites/login", "/movie/bites/register").permitAll()
+                .requestMatchers("/movie/bites/**").permitAll()
                 .anyRequest().authenticated()
             );
 
