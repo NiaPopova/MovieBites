@@ -1,4 +1,4 @@
-package com.web.java.project.movie.bites.entities;
+package com.web.java.project.movie.bites.dto;
 
 import lombok.Data;
 

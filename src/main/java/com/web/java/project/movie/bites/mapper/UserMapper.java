@@ -1,6 +1,6 @@
 package com.web.java.project.movie.bites.mapper;
 
-import com.web.java.project.movie.bites.entities.UserDto;
+import com.web.java.project.movie.bites.dto.UserDto;
 import com.web.java.project.movie.bites.entities.users.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

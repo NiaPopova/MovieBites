@@ -1,11 +1,11 @@
-package com.web.java.project.movie.bites.controller;
+package com.web.java.project.movie.bites.controllers;
 
-import com.web.java.project.movie.bites.entities.UserDto;
+import com.web.java.project.movie.bites.dto.UserDto;
 import com.web.java.project.movie.bites.entities.users.User;
 import com.web.java.project.movie.bites.mapper.UserMapper;
 import com.web.java.project.movie.bites.secutity.JwtUtil;
 import com.web.java.project.movie.bites.secutity.TokenBlacklistService;
-import com.web.java.project.movie.bites.service.UserService;
+import com.web.java.project.movie.bites.services.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

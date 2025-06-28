@@ -1,4 +1,4 @@
-package com.web.java.project.movie.bites.repository;
+package com.web.java.project.movie.bites.repositories;
 
 import com.web.java.project.movie.bites.entities.users.User;
 import org.springframework.data.jpa.repository.JpaRepository;
