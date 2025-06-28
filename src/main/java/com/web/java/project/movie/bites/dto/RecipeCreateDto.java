@@ -7,29 +7,72 @@ import java.util.List;
 public class RecipeCreateDto {
 
     @NotBlank
-    private String title;
+    private String name;
 
     @NotBlank
     private String description;
 
+    @NotBlank
+    private String summary;
+
+    @NotBlank
+    private String dificulty;
+
     @NotNull
     private List<String> ingredients;
 
-    @NotBlank
-    private String steps;
-
     @NotNull
-    private Long movieId;
+    private Long movieId; // ✅ ново поле
 
-    public String getTitle() { return title; }
-    public void setTitle(String title) { this.title = title; }
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
-    public List<String> getIngredients() { return ingredients; }
-    public void setIngredients(List<String> ingredients) { this.ingredients = ingredients; }
-    public String getSteps() { return steps; }
-    public void setSteps(String steps) { this.steps = steps; }
-    public Long getMovieId() { return movieId; }
-    public void setMovieId(Long movieId) { this.movieId = movieId; }
+    public RecipeCreateDto() {}
+
+    // Getters и Setters
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
+    }
+
+    public String getDificulty() {
+        return dificulty;
+    }
+
+    public void setDificulty(String dificulty) {
+        this.dificulty = dificulty;
+    }
+
+    public List<String> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(List<String> ingredients) {
+        this.ingredients = ingredients;
+    }
+
+    public Long getMovieId() {
+        return movieId;
+    }
+
+    public void setMovieId(Long movieId) {
+        this.movieId = movieId;
+    }
 }
-

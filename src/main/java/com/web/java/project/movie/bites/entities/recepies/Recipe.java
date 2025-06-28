@@ -1,5 +1,6 @@
 package com.web.java.project.movie.bites.entities.recepies;
 
+import com.web.java.project.movie.bites.entities.Movie;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
@@ -30,7 +31,7 @@ public class Recipe {
     private String summary;
 
     @Column(name = "DIFICULTY")
-    private String dificulty;
+    private String difficulty;
 
 
     @ManyToMany(cascade = CascadeType.ALL)
@@ -41,6 +42,9 @@ public class Recipe {
         uniqueConstraints = @UniqueConstraint(columnNames = {"recipe_id", "ingredient_id"}))
     private Set<Ingredient> ingredients = new HashSet<>();
 
+    @ManyToOne
+    @JoinColumn(name = "MOVIE_ID")
+    private Movie movie;
 
 
 
