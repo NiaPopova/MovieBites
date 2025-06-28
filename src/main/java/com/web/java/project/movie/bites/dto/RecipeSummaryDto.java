@@ -9,7 +9,7 @@ public class RecipeSummaryDto {
     private String summary;
     private String dificulty;
     private List<String> ingredients;
-    private String movieTitle; // ✅ ново поле
+    private String movieTitle;
 
     public RecipeSummaryDto() {}
 

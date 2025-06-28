@@ -22,7 +22,7 @@ public class RecipeCreateDto {
     private List<String> ingredients;
 
     @NotNull
-    private Long movieId; // ✅ ново поле
+    private Long movieId;
 
     public RecipeCreateDto() {}
 
