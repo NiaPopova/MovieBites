@@ -1,24 +1,14 @@
 package com.web.java.project.movie.bites.entities.recepies;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Table;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
+import com.web.java.project.movie.bites.entities.Movie;
+import jakarta.persistence.*;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import jakarta.persistence.UniqueConstraint;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
-
 @Entity
 @Table(name = "Recipes")
 @Getter
@@ -41,17 +31,20 @@ public class Recipe {
     private String summary;
 
     @Column(name = "DIFICULTY")
-    private String dificulty;
+    private String difficulty;
 
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
-        name = "CONTAINS",
-        joinColumns = @JoinColumn(name = "RECIPE_ID"),
-        inverseJoinColumns = @JoinColumn(name = "INGREDIENT_ID"),
-        uniqueConstraints = @UniqueConstraint(columnNames = {"RECIPE_ID", "INGREDIENT_ID"}))
+        name = "contains",
+        joinColumns = @JoinColumn(name = "recipe_id"),
+        inverseJoinColumns = @JoinColumn(name = "ingredient_id"),
+        uniqueConstraints = @UniqueConstraint(columnNames = {"recipe_id", "ingredient_id"}))
     private Set<Ingredient> ingredients = new HashSet<>();
 
+    @ManyToOne
+    @JoinColumn(name = "MOVIE_ID")
+    private Movie movie;
 
 
 

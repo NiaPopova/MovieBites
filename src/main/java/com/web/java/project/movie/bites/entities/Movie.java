@@ -1,16 +1,13 @@
 package com.web.java.project.movie.bites.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import com.web.java.project.movie.bites.entities.recepies.Recipe;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -42,4 +39,7 @@ public class Movie {
     @ManyToOne
     @JoinColumn(name = "GENRE_ID")
     private Genre genre;
+
+    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Recipe> recipes = new HashSet<>();
 }
