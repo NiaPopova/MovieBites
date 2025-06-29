@@ -5,13 +5,19 @@
     <div class="nav-icons">
       <i class="fi fi-rr-search" title="Търсене"></i>
 
-      <div class="dropdown-wrapper" (mouseenter)="showDropdown()" (mouseleave)="hideDropdown()">
-        <i class="fi fi-rr-menu-dots" title="Меню"></i>
-        <div class="dropdown-menu" *ngIf="isDropdownOpen">
-          <a routerLink="/recipes">Рецепти</a>
-          <a routerLink="/movies">Филми</a>
-        </div>
-      </div>
+   <div class="dropdown-wrapper">
+  <i class="fi fi-rr-menu-dots" title="Меню" (click)="toggleDropdown()"></i>
+
+  <div 
+    class="dropdown-menu" 
+    *ngIf="isDropdownOpen" 
+    (click)="closeDropdown()"
+  >
+    <a routerLink="/recipes">Рецепти</a>
+    <a routerLink="/movies">Филми</a>
+  </div>
+</div>
+
 
       <i class="fi fi-rr-user" (click)="goToLogin()" title="Вход"></i>
     </div>

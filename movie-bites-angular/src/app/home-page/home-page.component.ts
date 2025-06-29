@@ -18,12 +18,26 @@ export class HomePageComponent {
     this.router.navigate(['/login']);
   }
 
- showDropdown() {
+showDropdown() {
   this.isDropdownOpen = true;
 }
 
 hideDropdown() {
+ 
+  setTimeout(() => {
+    this.isDropdownOpen = false;
+  }, 200);
+}
+
+toggleDropdown() {
+  this.isDropdownOpen = !this.isDropdownOpen;
+}
+
+closeDropdown() {
   this.isDropdownOpen = false;
 }
 
+onDropdownClick() {
+  this.isDropdownOpen = true;
+}
 }
