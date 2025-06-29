@@ -1,9 +1,29 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'home-page',
   standalone: true,
+  imports: [CommonModule],
   templateUrl: './home-page.component.html',
   styleUrls: ['./home-page.component.css']
 })
-export class HomePageComponent {}
+export class HomePageComponent {
+  isDropdownOpen = false;
+
+  constructor(private router: Router) {}
+
+  goToLogin() {
+    this.router.navigate(['/login']);
+  }
+
+ showDropdown() {
+  this.isDropdownOpen = true;
+}
+
+hideDropdown() {
+  this.isDropdownOpen = false;
+}
+
+}

@@ -1,0 +1,10 @@
+<div class="login-form">
+  <h2>Вход</h2>
+
+  <input #emailInput type="email" placeholder="Имейл" class="input-field" />
+  <input #passwordInput type="password" placeholder="Парола" class="input-field" />
+
+ <button (click)="onLogin(emailInput.value, passwordInput.value)" class="login-button">
+  Влез
+</button>
+</div>
