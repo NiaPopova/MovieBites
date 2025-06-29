@@ -35,6 +35,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/movie/bites/**").permitAll()
                 .anyRequest().authenticated()
+
             );
 
         return http.build();

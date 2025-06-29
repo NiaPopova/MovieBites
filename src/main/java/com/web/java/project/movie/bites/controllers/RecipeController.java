@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/recipes")
+@RequestMapping("/movie/bites/recipes")
 public class RecipeController {
 
     private final RecipeService recipeService;
