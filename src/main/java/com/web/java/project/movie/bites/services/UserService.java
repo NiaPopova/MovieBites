@@ -2,10 +2,12 @@ package com.web.java.project.movie.bites.services;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.web.java.project.movie.bites.entities.users.User;
+import com.web.java.project.movie.bites.exception.NotFoundException;
 import com.web.java.project.movie.bites.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.*;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,7 +27,7 @@ public class UserService implements UserDetailsService {
 
     public User findByUsername(String username) {
         return userRepository.findByUsername(username)
-            .orElseThrow(() -> new UsernameNotFoundException("Username not found"));
+            .orElseThrow(() -> new NotFoundException("User not found"));
     }
 
     public boolean exists(User loginRequest) {
@@ -54,7 +56,7 @@ public class UserService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) throws NotFoundException {
         User user = findByUsername(username);
 
         return new org.springframework.security.core.userdetails.User(
