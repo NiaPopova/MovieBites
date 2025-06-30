@@ -30,8 +30,7 @@ public class UserController {
     private final UserMapper userMapper;
 
     @PostMapping("/register")
-    public ResponseEntity<UserDto> register(@RequestBody @Valid UserDto userDto) {
-        User user = userMapper.dtoToUser(userDto);
+    public ResponseEntity<UserDto> register(@RequestBody @Valid User user) {
         User savedUser = userService.register(user);
         return ResponseEntity.ok(userMapper.userToDto(savedUser));
     }
