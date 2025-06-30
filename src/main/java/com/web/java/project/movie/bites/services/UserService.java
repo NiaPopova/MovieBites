@@ -4,13 +4,15 @@ import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.web.java.project.movie.bites.entities.users.User;
 import com.web.java.project.movie.bites.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.*;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
@@ -18,25 +20,26 @@ public class UserService {
     public User register(User user) {
         validateEmail(user.getEmail());
         user.setPassword(encryptPassword(user.getPassword()));
-
         return userRepository.save(user);
     }
 
     public User findByUsername(String username) {
-        Optional<User> user = userRepository.findByUsername(username);
-        if (user.isPresent()) {
-            return user.get();
-        } else {
-            throw new UsernameNotFoundException("Username not found");
-        }
-
+        return userRepository.findByUsername(username)
+            .orElseThrow(() -> new UsernameNotFoundException("Username not found"));
     }
 
     public boolean exists(User loginRequest) {
-        Optional<User> user = userRepository.findByUsername(loginRequest.getUsername());
-        if (user.isPresent()) {
-            return true;
+        Optional<User> userOptional = userRepository.findByUsername(loginRequest.getUsername());
+
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            BCrypt.Result result = BCrypt.verifyer().verify(
+                loginRequest.getPassword().toCharArray(),
+                user.getPassword()
+            );
+            return result.verified;
         }
+
         return false;
     }
 
@@ -50,5 +53,14 @@ public class UserService {
         return BCrypt.withDefaults().hashToString(12, password.toCharArray());
     }
 
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = findByUsername(username);
 
+        return new org.springframework.security.core.userdetails.User(
+            user.getUsername(),
+            user.getPassword(),
+            List.of(new SimpleGrantedAuthority("ROLE_USER")) // ако имаш роли в UserEntity – добави ги тук
+        );
+    }
 }
