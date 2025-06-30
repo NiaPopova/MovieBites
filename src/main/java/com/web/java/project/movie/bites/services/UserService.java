@@ -62,7 +62,7 @@ public class UserService implements UserDetailsService {
         return new org.springframework.security.core.userdetails.User(
             user.getUsername(),
             user.getPassword(),
-            List.of(new SimpleGrantedAuthority("ROLE_USER")) // ако имаш роли в UserEntity – добави ги тук
+            List.of(new SimpleGrantedAuthority("ROLE_USER"))
         );
     }
 }
